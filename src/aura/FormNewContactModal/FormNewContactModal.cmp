@@ -1,0 +1,30 @@
+<aura:component description="FormNewContactModal" implements="flexipage:availableForAllPageTypes">
+    <lightning:overlayLibrary aura:id="formNewContactModal"/>
+    <aura:attribute name="objectId" type="Id"/>
+    <aura:registerEvent name="event" type="c:EventForUpdateContactList"/>
+    <aura:attribute name="disabled" type="Boolean" default="false"/>
+    <aura:attribute name="saved" type="Boolean" default="false"/>
+    <aura:attribute name="showSpinner" type="Boolean" default="true"/>
+    <aura:attribute name="recordId" type="String"/>
+    <aura:if isTrue="{!v.showSpinner}">
+        <div class="slds-grid slds-grid--frame">
+            <lightning:spinner/>
+        </div>
+    </aura:if>
+    <aura:if isTrue="{!!v.saved}">
+        <lightning:recordEditForm
+                onload="{!c.handleLoad}"
+                onerror="{!c.handleError}"
+                onsubmit="{!c.handleSubmit}"
+                onsuccess="{!c.handleSuccess}"
+                objectApiName="Contact">
+            <lightning:messages/>
+            <lightning:inputField fieldName="LastName"/>
+            <lightning:inputField fieldName="AccountId" value="{!v.objectId}"/>
+            <lightning:inputField fieldName="ExampleRequiredField__c"/>
+            <div class="slds-m-top_medium">
+                <lightning:button disabled="{!v.disabled}" variant="brand" type="submit" name="save" label="Save"/>
+            </div>
+        </lightning:recordEditForm>
+    </aura:if>
+</aura:component>

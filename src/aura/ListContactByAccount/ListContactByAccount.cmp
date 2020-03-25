@@ -1,0 +1,27 @@
+<aura:component description="ListContactByAccount"
+                implements="flexipage:availableForAllPageTypes,force:hasRecordId"
+                controller="AccountViewController">
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    <aura:handler event="c:EventForUpdateContactList" action="{!c.init}"/>
+    <lightning:overlayLibrary aura:id="ListContactByAccount"/>
+    <aura:attribute name="accountContacts" type="Id[]"/>
+    <aura:attribute name="accountRecord" type="Contact"/>
+    <aura:attribute name="showSpinner" type="Boolean" default="false"/>
+    <aura:if isTrue="{!v.showSpinner}">
+        <div class="slds-grid slds-grid--frame">
+            <lightning:spinner/>
+        </div>
+    </aura:if>
+    <lightning:card iconName="standard:contact" title="Contacts">
+        <div class="slds-grid slds-wrap">
+            <aura:iteration items="{!v.accountContacts}" var="contacts">
+                <div class="slds-col slds-size--1-of-3 slds-text-align--left slds-p-horizontal_x-small slds-p-vertical_x-small">
+                    <force:recordView recordId="{!contacts.Id}" type="MINI"/>
+                </div>
+            </aura:iteration>
+        </div>
+        <aura:set attribute="actions">
+            <lightning:button label="New" onclick="{!c.modalFormNewContact}"/>
+        </aura:set>
+    </lightning:card>
+</aura:component>

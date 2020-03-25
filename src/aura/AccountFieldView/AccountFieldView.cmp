@@ -1,0 +1,41 @@
+<aura:component description="AccountFieldView"
+                implements="flexipage:availableForAllPageTypes,force:hasRecordId,force:appHostable"
+                controller="AccountViewController">
+    <aura:attribute name="listOfAccountFieldSet" type="List"/>
+    <aura:attribute name="accountRecord" type="Account"/>
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    <lightning:overlayLibrary aura:id="accountFieldView"/>
+
+    <force:recordData recordId="{!v.recordId}"
+                      fields="Name"
+                      targetFields="{!v.accountRecord}"/>
+
+    <aura:attribute name="loaded" type="Boolean" default="false"/>
+
+    <aura:if isTrue="{! v.loaded }">
+        <div class="slds-grid slds-grid--frame">
+            <lightning:spinner alternativeText="Loading" size="large"/>
+        </div>
+    </aura:if>
+
+    <div class="slds-grid vertical-stretch">
+        <div class="slds-size_1-of-2">
+            <lightning:card iconName="standard:account" title="{!v.accountRecord.Name}">
+                <lightning:recordViewForm recordId="{!v.recordId}" objectApiName="Account">
+                    <aura:iteration items="{!v.listOfAccountFieldSet}" var="field">
+                        <div class="slds-has-divider--bottom">
+                            <lightning:outputField fieldName="{!field}"/>
+                        </div>
+                    </aura:iteration>
+                </lightning:recordViewForm>
+                <aura:set attribute="actions">
+                    <lightning:button label="New" onclick="{!c.newAccountButtonHandler}"/>
+                    <lightning:button label="Edit" onclick="{!c.editAccountButtonHandler}"/>
+                </aura:set>
+            </lightning:card>
+        </div>
+        <div class="forMap">
+            <c:AccountMap recordId="{!v.recordId}"/>
+        </div>
+    </div>
+</aura:component>

@@ -1,0 +1,10 @@
+<aura:component description="AccountMap"
+                implements="flexipage:availableForAllPageTypes,force:appHostable"
+                controller="AccountViewController">
+    <aura:attribute name="mapMarkers" type="Object"/>
+    <aura:attribute name="recordId" type="Id"/>
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    <aura:if isTrue="{!v.mapMarkers.length > 0}">
+            <lightning:map mapMarkers="{! v.mapMarkers }"/>
+    </aura:if>
+</aura:component>

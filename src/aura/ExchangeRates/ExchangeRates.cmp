@@ -1,0 +1,27 @@
+<aura:component implements="flexipage:availableForAllPageTypes,force:appHostable"
+                description="ExchangeRates"
+                controller="ExchangeRates">
+    <aura:attribute name="exchangeRatesInfo" type="String[]"/>
+    <aura:attribute name="today" type="Date"/>
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    <lightning:card>
+        <div class="slds-m-left_xx-small">
+            <div class="textFormat">Exchange Rates by Belarus Bank by {!v.today}</div>
+            <aura:iteration items="{!v.exchangeRatesInfo}" var="item">
+              В городе {!item.name}
+                <li>
+                    USD    {!item.USD_in}
+                </li>
+                <li>
+                    EUR    {!item.EUR_in}
+                </li>
+                <li>
+                    RUB    {!item.RUB_in}
+                </li>
+                <li>
+                    PLN    {!item.PLN_in}
+                </li>
+            </aura:iteration>
+        </div>
+    </lightning:card>
+</aura:component>

@@ -1,0 +1,46 @@
+<aura:component description="FormNewOpportunityModal" implements="flexipage:availableForAllPageTypes,force:hasRecordId">
+    <aura:attribute name="isOpenModalWindow" type="Boolean" default="false"/>
+    <aura:attribute name="objectId" type="Id"/>
+    <aura:attribute name="onSuccess" type="Boolean"/>
+    <aura:attribute name="disabled" type="Boolean" default="false"/>
+    <aura:attribute name="saved" type="Boolean" default="false"/>
+    <aura:attribute name="showSpinner" type="Boolean" default="true"/>
+    <aura:attribute name="recordId" type="String"/>
+
+    <aura:if isTrue="{!v.isOpenModalWindow}">
+        <aura:if isTrue="{!v.showSpinner}">
+            <div class="slds-grid slds-grid--frame">
+                <lightning:spinner/>
+            </div>
+        </aura:if>
+        spiner--> {!v.showSpinner}
+        <section class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <lightning:card>
+                    <header class="slds-modal__header ">
+                        <div class="slds-text-heading_medium">New Opportunity</div>
+                        <lightning:buttonIcon iconName="utility:close" class="slds-modal__close"
+                                              onclick="{! c.closeModal }"/>
+                    </header>
+                    <aura:if isTrue="{!!v.saved}">
+                        <lightning:recordEditForm objectApiName="Opportunity"
+                                                  onload="{!c.handleLoad}"
+                                                  onsubmit="{!c.handleSubmit}"
+                                                  onsuccess="{!c.handleSuccess}"
+                                                  onerror="{!c.handleError}">
+                            <lightning:messages/>
+                            <div class="slds-p-horizontal_x-small slds-p-vertical_x-small">
+                                <lightning:inputField fieldName="Name"/>
+                                <lightning:inputField fieldName="AccountId" value="{!v.objectId}"/>
+                                <lightning:inputField fieldName="StageName"/>
+                                <lightning:inputField fieldName="CloseDate"/>
+                                <lightning:button variant="brand" type="submit" name="save" label="Save"/>
+                            </div>
+                        </lightning:recordEditForm>
+                    </aura:if>
+                </lightning:card>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"/>
+    </aura:if>
+</aura:component>

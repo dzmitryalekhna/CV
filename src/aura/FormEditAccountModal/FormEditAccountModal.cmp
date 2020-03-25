@@ -1,0 +1,33 @@
+<aura:component description="FormEditAccountModal"
+                implements="flexipage:availableForAllPageTypes,force:hasRecordId,force:appHostable"
+                controller="AccountViewController">
+    <lightning:overlayLibrary aura:id="FormEditAccountModal"/>
+    <aura:handler name="init" value="{!this}" action="{!c.getAccountFieldsEdit}"/>
+    <aura:registerEvent name="event" type="c:EventForUpdateContactList"/>
+    <aura:attribute name="listOfAccountFieldSet" type="List"/>
+    <aura:attribute name="objectId" type="Id"/>
+
+    <aura:attribute name="disabled" type="Boolean" default="false"/>
+    <aura:attribute name="saved" type="Boolean" default="false"/>
+    <aura:attribute name="showSpinner" type="Boolean" default="true"/>
+
+    <aura:if isTrue="{!v.showSpinner}">
+        <div class="slds-grid slds-grid--frame" >
+            <lightning:spinner size="large"/>
+        </div>
+    </aura:if>
+    <aura:if isTrue="{!!v.saved}">
+        <lightning:recordEditForm onload="{!c.handleLoad}"
+                                  onsubmit="{!c.handleSubmit}"
+                                  onsuccess="{!c.handleSuccess}"
+                                  onerror="{!c.handleError}"
+                                  recordId="{!v.objectId}"
+                                  objectApiName="Account">
+            <lightning:messages/>
+            <aura:iteration items="{!v.listOfAccountFieldSet}" var="field">
+                <lightning:inputField fieldName="{!field}"/>
+            </aura:iteration>
+            <lightning:button variant="brand" type="submit" name="save" label="Save"/>
+        </lightning:recordEditForm>
+    </aura:if>
+</aura:component>
